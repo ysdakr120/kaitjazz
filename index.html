@@ -85,6 +85,7 @@
             document.getElementById('loading').innerText = '更新中...';
             
             try {
+                alert(JSON.stringify({ id, status, club })),
                 await fetch(GAS_URL, {
                     method: 'POST',
                     body: JSON.stringify({ id, status, club })
