@@ -32,7 +32,7 @@
 
     <script>
         // ⚠️ ここにステップ1でコピーしたGASのURLを貼り付けてください
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbx9JxJvQ2GDQSG5yrZnJ6dpIIGVEv7HP4XBwAMjbdd4q88Vfd9JFhEgG_XV1xMgg0r0Bg/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyw1dMeG_DVI6lz2fqpYSm0dxSoopz04jpnxC4jpTq79M_G2_MYoVo2UPV7d9kDyDUyPQ/exec";
 
         // データを取得して画面を描画する関数
         async function loadRooms() {
@@ -85,7 +85,6 @@
             document.getElementById('loading').innerText = '更新中...';
             
             try {
-                alert(JSON.stringify({ id, status, club })),
                 await fetch(GAS_URL, {
                     method: 'POST',
                     body: JSON.stringify({ id, status, club })
