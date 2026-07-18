@@ -49,6 +49,9 @@
                     card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
                     
                     card.innerHTML = `
+                        <div class="room-id">${id}</div>
+                        <div class="room-name">${room.room}</div>
+                        <div class="room-name">${room.room}</div>
                         <div class="room-name">${room.room}</div>
                         <div class="status-badge">${room.status}</div>
                         <div class="club-name">${isOccupied ? room.club : 'ーーー'}</div>
