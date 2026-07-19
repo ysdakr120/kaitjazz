@@ -25,13 +25,13 @@
     </style>
 </head>
 <body>
-    <h1>🏫 教室利用状況リアルタイムボード</h1>
+    <h1>🏫 教室利用状況リアルタイムボードv12</h1>
     <div id="loading" style="text-align: center;">データを読み込み中...</div>
     <div class="grid" id="roomGrid"></div>
 
     <script>
         // ⚠️ ここにステップ1でコピーしたGASのURLを貼り付けてください
-        const GAS_URL = "https://script.google.com/macros/s/AKfycby8lFJBFaXgWhUi6Hy-aA9v0R5qGOMQq7X3AnuKO1eIMjsnMUl_9Xy2sfYGPzawnpJFeg/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbypkIjIxeoukA246Lu2IAZChXzTphKTHqvW0KxP0GlGXQGQv6JtEFQu0wcGzfIp94Pgqg/exec";
 
         // データを取得して画面を描画する関数
         async function loadRooms() {
