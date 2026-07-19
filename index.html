@@ -86,7 +86,7 @@
             
             try {
                 await fetch(GAS_URL, {
-                    method: 'POST',
+                    method: 'doPost',
                     body: JSON.stringify({ id, status, club })
                 });
                 // 更新完了したら再読み込み
