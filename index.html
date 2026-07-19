@@ -83,7 +83,7 @@
             document.getElementById('loading').style.display = 'block';
             document.getElementById('loading').innerText = '更新中...';
 
-            alert(id,room.club);
+            alert(id,status,club);
             
             try {
                 await fetch(GAS_URL, {
