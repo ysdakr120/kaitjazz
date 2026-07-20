@@ -15,7 +15,7 @@
 
         .card.available { border-top: 6px solid #10b981; }
 
-        .room-name { font-size: 0.85rem; font-weight: bold; margin-bottom: 5px; }
+        .room-name { font-size: 0.85rem; font-weight: bold; margin-bottom: 5px;  background: #ffffff;}
 
         .status-badge { display: inline-block; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold; color: white; margin-bottom: 5px; }
 
@@ -65,7 +65,7 @@
                     card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
                     
                     card.innerHTML = `
-                        <div class="status-badge">${room.status} 　 <div class="room-name">${room.room}</div></div>
+                        <div class="room-name"><span class="status-badge">${room.status} </span> 　 ${room.room}</div>
                         <div class="club-name">${isOccupied ? room.club : 'ーーー'}</div>
                         <div class="inputs">
                             ${isOccupied ? `
