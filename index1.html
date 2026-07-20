@@ -69,14 +69,8 @@
 
 ${isOccupied ? `<div>${room.room} ${room.club }</div>` : ''}
 
-                        <div class="inputs">
-                            ${isOccupied ? `
-                                <button class="leave-btn" onclick="updateRoom('${room.id}', '不在', 'なし')">退室（不在にする）</button>
-                            ` : `
-                                <input type="text" id="club-${room.id}" placeholder="備考を入力">
-                                <button onclick="enterRoom('${room.id}')">入室（使用する）</button>
-                            `}
-                        </div>
+${isOccupied ? `<div class="inputs"><button class="leave-btn" onclick="updateRoom('${room.id}', '不在', 'なし')">退室（不在にする）</button></div> `:''}
+                        
                     `;
                     grid.appendChild(card);
 
