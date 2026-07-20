@@ -64,7 +64,7 @@
                     const card = document.createElement('div');
 
 
-                    card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
+                    card.className = `card ${isOccupied ? 'occupied' : ''}`;
                     card.innerHTML = `
 
 ${isOccupied ? `<div>${room.room} ${room.club }</div>` : ''}
@@ -72,7 +72,7 @@ ${isOccupied ? `<div>${room.room} ${room.club }</div>` : ''}
 ${isOccupied ? `<div class="inputs"><button class="leave-btn" onclick="updateRoom('${room.id}', '不在', 'なし')">退室（不在にする）</button></div> `:''}
                         
                     `;
-                    grid.appendChild(card);
+//                  grid.appendChild(card);
 
                 });
 
