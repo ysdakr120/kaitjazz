@@ -63,11 +63,12 @@
                     const isOccupied = room.status === '使用中';
                     const card = document.createElement('div');
 
-//${isOccupied ? 'occupied' :
 
                     card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
-                    
                     card.innerHTML = `
+
+${isOccupied ? '
+
                         <div>${room.room} ${isOccupied ? room.club : 'ーーー'}</div>
                         <div class="inputs">
                             ${isOccupied ? `
@@ -77,10 +78,9 @@
                                 <button onclick="enterRoom('${room.id}')">入室（使用する）</button>
                             `}
                         </div>
+' : ''}
                     `;
                     grid.appendChild(card);
-
-//}
 
                 });
 
