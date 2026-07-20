@@ -66,6 +66,9 @@
 
                     card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
                     card.innerHTML = `
+
+${isOccupied ? '<div>${room.room} room.club }</div>' : ''}
+
                         <div>${room.room} ${isOccupied ? room.club : 'ーーー'}</div>
                         <div class="inputs">
                             ${isOccupied ? `
