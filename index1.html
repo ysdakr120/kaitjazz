@@ -1,44 +1,117 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>部活動 教室リアルタイム管理</title>
     <style>
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 5px; color: #333; }
-        h1 { text-align: center; color: #1e3a8a; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 5px; max-width: 1200px; margin: 5px auto; }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 5px;
+            color: #333;
+        }
 
-        .card { background: white; padding: 5px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; }
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+        }
 
-        .card.occupied { border-top: 6px solid #ef4444; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 5px;
+            max-width: 1200px;
+            margin: 5px auto;
+        }
 
-        .card.available { border-top: 6px solid #10b981; }
+        .card {
+            background: white;
+            padding: 5px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
 
-        .room-name { font-size: 1rem; font-weight: bold; margin-bottom: 5px;  background: #ffffff;}
+        .card.occupied {
+            border-top: 6px solid #ef4444;
+        }
 
-        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 5px; font-size: 0.85rem; font-weight: bold; color: white; margin-bottom: 5px; }
+        .card.available {
+            border-top: 6px solid #10b981;
+        }
 
-        .occupied .status-badge { background: #ef4444; }
+        .room-name {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            background: #ffffff;
+        }
 
-        .available .status-badge { background: #10b981; }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+        }
 
-        .club-name { font-size: 0.85rem; font-weight: bold; min-height: 27px; margin-bottom: 5px; color: #4b5563; }
+        .occupied .status-badge {
+            background: #ef4444;
+        }
 
-        .inputs { display: flex; flex-direction: column; gap: 8px; }
+        .available .status-badge {
+            background: #10b981;
+        }
 
-        input, button { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; font-size: 0.85rem; }
+        .club-name {
+            font-size: 0.85rem;
+            font-weight: bold;
+            min-height: 27px;
+            margin-bottom: 5px;
+            color: #4b5563;
+        }
 
-        button { background: #2563eb; color: white; border: none; cursor: pointer; font-weight: bold; }
+        .inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-        button:hover { background: #1d4ed8; }
+        input,
+        button {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 0.85rem;
+        }
 
-        button.leave-btn { background: #6b7280; }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
-        button.leave-btn:hover { background: #4b5563; }
+        button:hover {
+            background: #1d4ed8;
+        }
 
+        button.leave-btn {
+            background: #6b7280;
+        }
+
+        button.leave-btn:hover {
+            background: #4b5563;
+        }
     </style>
 </head>
+
 <body>
     <h1>🏫 スタジオ利用者表示</h1>
     <div id="loading" style="text-align: center;">データを読み込み中...</div>
@@ -52,30 +125,30 @@
             try {
                 const response = await fetch(GAS_URL);
                 const data = await response.json();
-                
+
                 const loadingElem = document.getElementById('loading');
                 loadingElem.style.display = 'none';
-                
+
                 const grid = document.getElementById('roomGrid');
 
-                grid.innerHTML = '' ;
+                grid.innerHTML = '';
 
                 data.forEach(room => {
                     const isOccupied = room.status === '使用中';
-                    const card = document.createElement(${isOccupied ? '`div`' : ''});
+                    const card = document.createElement('div');
 
 
                     card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
 
                     card.innerHTML = `
 
-${isOccupied ? `<div>${room.room} ${room.club }</div>` : ''}
+${isOccupied ? `<div>${room.room} ${room.club}</div>` : ''}
 
-${isOccupied ? `<div class="inputs"><button class="leave-btn" onclick="updateRoom('${room.id}', '不在', 'なし')">退室（不在にする）</button></div> `:''}
+${isOccupied ? `<div class="inputs"><button class="leave-btn" onclick="updateRoom('${room.id}', '不在', 'なし')">退室（不在にする）</button></div> ` : ''}
                         
                     `;
 
-grid.appendChild(card);
+                    grid.appendChild(card);
 
                 });
 
@@ -129,4 +202,5 @@ grid.appendChild(card);
         setInterval(loadRooms, 60000); 
     </script>
 </body>
+
 </html>
