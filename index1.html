@@ -134,14 +134,12 @@
                 grid.innerHTML = '';
 
                 data.forEach(room => {
+                    if (room.status === '使用中') {
                     const isOccupied = room.status === '使用中';
                     const card = document.createElement('div');
-
-
                     card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
 
                     card.innerHTML = `
-
 ${isOccupied ? `<div>${room.room} ${room.club}</div>` : ''}
 
 ${isOccupied ? `<div class="inputs"><button class="leave-btn" onclick="updateRoom('${room.id}', '不在', 'なし')">退室（不在にする）</button></div> ` : ''}
@@ -149,6 +147,7 @@ ${isOccupied ? `<div class="inputs"><button class="leave-btn" onclick="updateRoo
                     `;
 
                     grid.appendChild(card);
+                    }
 
                 });
 
