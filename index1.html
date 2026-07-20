@@ -73,7 +73,7 @@ ${isOccupied ? `<div>${room.room} ${room.club }</div>` : ''}
 ${isOccupied ? `<div class="inputs"><button class="leave-btn" onclick="updateRoom('${room.id}', '不在', 'なし')">退室（不在にする）</button></div> `:''}
                         
                     `;
-${isOccupied ? grid.appendChild(card);};
+grid.appendChild(card);
 
                 });
 
