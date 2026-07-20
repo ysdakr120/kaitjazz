@@ -59,12 +59,12 @@
                 const grid = document.getElementById('roomGrid');
                 grid.innerHTML = '';
 
-
-//${isOccupied ?
-
                 data.forEach(room => {
                     const isOccupied = room.status === '使用中';
                     const card = document.createElement('div');
+
+${isOccupied ? 'occupied' :
+
                     card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
                     
                     card.innerHTML = `
@@ -79,8 +79,11 @@
                         </div>
                     `;
                     grid.appendChild(card);
+
+}
+
                 });
-//}
+
             } catch (error) {
                 console.error("データ取得エラー:", error);
                 document.getElementById('loading').innerText = 'データの取得に失敗しました。';
