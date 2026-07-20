@@ -25,20 +25,22 @@
     </style>
 </head>
 <body>
-    <h1>🏫 教室利用状況リアルタイムボードv12</h1>
+    <h1>🏫 教室利用状況リアルタイムボードv15</h1>
     <div id="loading" style="text-align: center;">データを読み込み中...</div>
     <div class="grid" id="roomGrid"></div>
 
     <script>
-        // ⚠️ ここにステップ1でコピーしたGASのURLを貼り付けてください
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbwHXwIq6Axtzz6_78Pc-UvNFq6ox-z77mp16ascH2nZoGyJguLYoOWs7iLKH0etEwbTzQ/exec";
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbzRrZ4sVH6SKX2uhsssR1mZ3Gqu-3DYfwu7wYNwr7CnJTSfSiBS-JFxWew9FJMdIUtNvQ/exec";
 
         // データを取得して画面を描画する関数
         async function loadRooms() {
             try {
                 const response = await fetch(GAS_URL);
                 const data = await response.json();
-                document.getElementById('loading').style.display = 'none';
+                
+                const loadingElem = document.getElementById('loading');
+                loadingElem.style.display = 'none';
+                
                 const grid = document.getElementById('roomGrid');
                 grid.innerHTML = '';
 
@@ -53,10 +55,10 @@
                         <div class="club-name">${isOccupied ? room.club : 'ーーー'}</div>
                         <div class="inputs">
                             ${isOccupied ? `
-                                <button class="leave-btn" onclick="updateRoom(${room.id}, '空き', 'なし')">退室（空きにする）</button>
+                                <button class="leave-btn" onclick="updateRoom('${room.id}', '空き', 'なし')">退室（空きにする）</button>
                             ` : `
                                 <input type="text" id="club-${room.id}" placeholder="使用する部活名を入力">
-                                <button onclick="enterRoom(${room.id})">入室（使用する）</button>
+                                <button onclick="enterRoom('${room.id}')">入室（使用する）</button>
                             `}
                         </div>
                     `;
@@ -64,6 +66,7 @@
                 });
             } catch (error) {
                 console.error("データ取得エラー:", error);
+                document.getElementById('loading').innerText = 'データの取得に失敗しました。';
             }
         }
 
@@ -80,24 +83,33 @@
 
         // スプレッドシートのデータを更新する関数
         async function updateRoom(id, status, club) {
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('loading').innerText = '更新中...';
+            const loadingElem = document.getElementById('loading');
+            loadingElem.style.display = 'block';
+            loadingElem.innerText = '更新中...';
 
-            
             try {
+                // GASへのPOST通信（text/plainとして送ることでCORSプリフライト通信を回避）
                 await fetch(GAS_URL, {
                     method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                    },
                     body: JSON.stringify({ id, status, club })
-               });
-                // 更新完了したら再読み込み
-                loadRooms();
+                });
+
+                // 少し待ってから再読み込み（GAS側の書き込み反映ラグ対策）
+                setTimeout(() => {
+                    loadRooms();
+                }, 1000);
+
             } catch (error) {
-                alert("更新に失敗しました。" , error);
+                alert(`更新に失敗しました: ${error.message}`);
                 console.error(error);
+                loadingElem.style.display = 'none';
             }
         }
 
-        // 最初の一回を実行、および30秒ごとに自動リロードしてリアルタイム化
+        // 最初の一回を実行、および30秒ごとに自動リロード
         loadRooms();
         setInterval(loadRooms, 30000); 
     </script>
