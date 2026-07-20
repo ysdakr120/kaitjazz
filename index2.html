@@ -74,10 +74,10 @@
         function enterRoom(id) {
             const clubInput = document.getElementById(`club-${id}`);
             const clubName = clubInput.value.trim();
-            if (!clubName) {
-                alert("部活名を入力してください。");
-                return;
-            }
+            //if (!clubName) {
+            //  alert("部活名を入力してください。");
+            // return;
+            //}
             updateRoom(id, '使用中', clubName);
         }
 
