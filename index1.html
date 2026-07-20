@@ -58,14 +58,15 @@
                 
                 const grid = document.getElementById('roomGrid');
 
-${isOccupied ?  grid.innerHTML = '' };
+                grid.innerHTML = '' ;
 
                 data.forEach(room => {
                     const isOccupied = room.status === '使用中';
                     const card = document.createElement('div');
 
 
-                    card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
+                    card.className = `
+${isOccupied ? `card ${isOccupied ? 'occupied' : 'available'}` :}
 
                     card.innerHTML = `
 
