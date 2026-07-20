@@ -62,7 +62,7 @@
 
                 data.forEach(room => {
                     const isOccupied = room.status === '使用中';
-                    const card = document.createElement('div');
+                    const card = document.createElement(${isOccupied ? 'div' : ''});
 
 
                     card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
