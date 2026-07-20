@@ -58,7 +58,7 @@
                 
                 const grid = document.getElementById('roomGrid');
 
-${isOccupied ?  grid.innerHTML = ''; }
+${isOccupied ?  grid.innerHTML = '' };
 
                 data.forEach(room => {
                     const isOccupied = room.status === '使用中';
