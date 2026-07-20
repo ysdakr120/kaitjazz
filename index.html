@@ -1,31 +1,119 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>部活動 教室リアルタイム管理</title>
     <style>
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; color: #333; }
-        h1 { text-align: center; color: #1e3a8a; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 20px auto; }
-        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; }
-        .card.occupied { border-top: 6px solid #ef4444; }
-        .card.available { border-top: 6px solid #10b981; }
-        .room-name { font-size: 1.4rem; font-weight: bold; margin-bottom: 5px; }
-        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; color: white; margin-bottom: 15px; }
-        .occupied .status-badge { background: #ef4444; }
-        .available .status-badge { background: #10b981; }
-        .club-name { font-size: 1.1rem; font-weight: bold; min-height: 27px; margin-bottom: 15px; color: #4b5563; }
-        .inputs { display: flex; flex-direction: column; gap: 8px; }
-        input, button { padding: 8px; border-radius: 6px; border: 1px solid #d1d5db; font-size: 0.95rem; }
-        button { background: #2563eb; color: white; border: none; cursor: pointer; font-weight: bold; }
-        button:hover { background: #1d4ed8; }
-        button.leave-btn { background: #6b7280; }
-        button.leave-btn:hover { background: #4b5563; }
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 5px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 5px;
+            max-width: 1200px;
+            margin: 5px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 5px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
+
+        .card.occupied {
+            border-top: 6px solid #ef4444;
+        }
+
+        .card.available {
+            border-top: 6px solid #10b981;
+        }
+
+        .room-name {
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            background: #ffffff;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .occupied .status-badge {
+            background: #ef4444;
+        }
+
+        .available .status-badge {
+            background: #10b981;
+        }
+
+        .club-name {
+            font-size: 0.85rem;
+            font-weight: bold;
+            min-height: 27px;
+            margin-bottom: 5px;
+            color: #4b5563;
+        }
+
+        .inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        input,
+        button {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 0.85rem;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button.leave-btn {
+            background: #6b7280;
+        }
+
+        button.leave-btn:hover {
+            background: #4b5563;
+        }
     </style>
 </head>
+
 <body>
-    <h1>🏫 教室利用状況リアルタイムボードv15</h1>
+    <h1>🏫 スタジオ利用者表示</h1>
     <div id="loading" style="text-align: center;">データを読み込み中...</div>
     <div class="grid" id="roomGrid"></div>
 
@@ -37,33 +125,32 @@
             try {
                 const response = await fetch(GAS_URL);
                 const data = await response.json();
-                
+
                 const loadingElem = document.getElementById('loading');
                 loadingElem.style.display = 'none';
-                
+
                 const grid = document.getElementById('roomGrid');
+
                 grid.innerHTML = '';
 
                 data.forEach(room => {
+                    if (room.status === '使用中') {
                     const isOccupied = room.status === '使用中';
                     const card = document.createElement('div');
                     card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
-                    
+
                     card.innerHTML = `
-                        <div class="room-name">${room.room}</div>
-                        <div class="status-badge">${room.status}</div>
-                        <div class="club-name">${isOccupied ? room.club : 'ーーー'}</div>
-                        <div class="inputs">
-                            ${isOccupied ? `
-                                <button class="leave-btn" onclick="updateRoom('${room.id}', '空き', 'なし')">退室（空きにする）</button>
-                            ` : `
-                                <input type="text" id="club-${room.id}" placeholder="使用する部活名を入力">
-                                <button onclick="enterRoom('${room.id}')">入室（使用する）</button>
-                            `}
-                        </div>
+${isOccupied ? `<div>${room.room} ${room.club}</div>` : ''}
+
+${isOccupied ? `<div class="inputs"><button class="leave-btn" onclick="updateRoom('${room.id}', '不在', 'なし')">退室（不在にする）</button></div> ` : ''}
+                        
                     `;
+
                     grid.appendChild(card);
+                    }
+
                 });
+
             } catch (error) {
                 console.error("データ取得エラー:", error);
                 document.getElementById('loading').innerText = 'データの取得に失敗しました。';
@@ -74,10 +161,10 @@
         function enterRoom(id) {
             const clubInput = document.getElementById(`club-${id}`);
             const clubName = clubInput.value.trim();
-            if (!clubName) {
-                alert("部活名を入力してください。");
-                return;
-            }
+            //if (!clubName) {
+            //  alert("備考を入力してください。");
+            // return;
+            //}
             updateRoom(id, '使用中', clubName);
         }
 
@@ -109,9 +196,10 @@
             }
         }
 
-        // 最初の一回を実行、および30秒ごとに自動リロード
+        // 最初の一回を実行、および60秒ごとに自動リロード
         loadRooms();
-        setInterval(loadRooms, 30000); 
+        setInterval(loadRooms, 60000); 
     </script>
 </body>
+
 </html>
