@@ -64,7 +64,8 @@
                     const card = document.createElement('div');
 
 
-${isOccupied ? card.className = `card occupied` : };
+                    card.className = `card ${isOccupied ? 'occupied' : 'available'}`;
+
                     card.innerHTML = `
 
 ${isOccupied ? `<div>${room.room} ${room.club }</div>` : ''}
